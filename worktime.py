@@ -39,7 +39,7 @@ if st.session_state.first_visit:
     #st.session_state.city_mapping,st.session_state.random_city_index=get_city_mapping()
     # st.session_state.random_city_index=random.choice(range(len(st.session_state.city_mapping)))
     st.balloons()
-    st.snow()
+    #st.snow()
 
 # music=st.sidebar.radio('选择你喜欢的音乐',['圣诞快乐劳伦斯先生','春江花月夜'],index=random.choice(range(2)))
 # st.sidebar.write(f'正在播放 {music}-郎朗:musical_note:')
