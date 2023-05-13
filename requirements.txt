@@ -1,7 +1,4 @@
 streamlit==1.16.0
-random
 pandas==1.5.3
 numpy==1.23.5
-datetime
-time
 plotly==5.9.0
