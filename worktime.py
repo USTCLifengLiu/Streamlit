@@ -51,7 +51,7 @@ if st.session_state.first_visit:
 # t=f'{t}'.split('.')[0]
 # st.sidebar.write(f'xian{d} {t}')
 
-data = pd.read_csv('/Users/apple/Desktop/worktime/worktime.csv')
+data = pd.read_csv('worktime.csv')
 day = data['日期'].unique().tolist()
 Start = datetime.strptime(day[0],'%Y/%m/%d')
 End = datetime.strptime(day[-1],'%Y/%m/%d')
@@ -119,7 +119,7 @@ else:
 #fig.show()
 #do_something()
 ####################################################
-file_ = open("/Users/apple/Desktop/worktime/gogo.gif", "rb")
+file_ = open("gogo.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
