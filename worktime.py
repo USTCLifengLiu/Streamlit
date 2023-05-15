@@ -9,7 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import time
 from time import gmtime,strftime
-
+from st_aggrid import AgGrid,DataReturnMode, GridUpdateMode, GridOptionsBuilder
 
 st.set_page_config(page_title="丫丫学习时间汇总",page_icon = ':rainbow:')
 st.title("丫丫学习时间")
@@ -63,7 +63,7 @@ if start_date <= end_date:
     st.success("开始日期: `{}`\n\n结束日期:`{}`".format(start_date, end_date))
 else:
     st.error("Error: 结束日期应该在开始日期之后")
-pixture = st.sidebar.radio('功能图:',['折线图','饼状图'])
+pixture = st.sidebar.radio('功能图表:',['饼状图','折线图','柱状图','表格'])
 
 subject = st.multiselect("科目:",['法理学','刑法','英语'], default = ['法理学','刑法','英语'])
 
@@ -112,10 +112,27 @@ if pixture=='折线图':
                                 line_color=colordict[sub]))
     st.plotly_chart(fig)
     ##############################################
-else:
+if pixture == '饼状图':
     select2 = pd.DataFrame({'科目':subject,'时长':total_time_subject,'色彩':colorchoice})
     fig2 = px.pie(select2,names='科目',values='时长',color='科目',color_discrete_map=colordict,title='各科目学习占比')
     st.plotly_chart(fig2)
+if pixture == '柱状图':
+    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
+    data['日期'] = pd.to_datetime(data['日期'])
+    select = data.loc[range(start_time,end_time+1)]
+    fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale='Viridis')
+    st.plotly_chart(fig3)
+else:
+    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
+    #data['日期'] = pd.to_datetime(data['日期'])
+    select = data.loc[range(start_time,end_time+1)]
+    options_builder = GridOptionsBuilder.from_dataframe(select)
+    options_builder.configure_default_column(groupable=True,value=True,enableRowGroup=True,aggFunc='sum',editable=True,wrapText = True,autoHeight=True)
+    # options_builder.configure_column('col1',pinned = 'left')
+    # options_builder.configure_column('col2',pinned = 'left')
+    grid_options = options_builder.build()
+    grid_return = AgGrid(select,grid_options,theme='streamlit')
+    #grid_return
 #fig.show()
 #do_something()
 ####################################################
