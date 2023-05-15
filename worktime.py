@@ -126,7 +126,7 @@ else:
     data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
     #data['日期'] = pd.to_datetime(data['日期'])
     selection = data.reindex(columns=['日期','法理学','刑法','英语','总时长','备注'])
-    select = data.loc[range(start_time,end_time+1)]
+    select = selection.loc[range(start_time,end_time+1)]
     options_builder = GridOptionsBuilder.from_dataframe(select)
     options_builder.configure_default_column(groupable=True,value=True,enableRowGroup=True,aggFunc='sum',editable=True,wrapText = True,autoHeight=True)
     # options_builder.configure_column('col1',pinned = 'left')
