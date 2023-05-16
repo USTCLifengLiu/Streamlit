@@ -120,7 +120,7 @@ if pixture == '柱状图':
     data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
     data['日期'] = pd.to_datetime(data['日期'])
     select = data.loc[range(start_time,end_time+1)]
-    select.loc[:,['总时长']] = select.loc[:,['总时长']]/60
+    select.loc[:,['总时长']] = np.around(select.loc[:,['总时长']]/60,2)
     #color_scale = [[0, 'rgb(255, 182, 193)'],[0.6, 'rgb(0, 192, 203)'],[0.8, 'rgb(50, 205, 50)'],[1, 'rgb(0, 100, 0)']] 
     #fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale=color_scale)
     colors = []
