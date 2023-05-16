@@ -63,7 +63,7 @@ if start_date <= end_date:
     st.success("开始日期: `{}`\n\n结束日期:`{}`".format(start_date, end_date))
 else:
     st.error("Error: 结束日期应该在开始日期之后")
-pixture = st.sidebar.radio('功能图表:',['饼状图','折线图','柱状图','表格'])
+pixture = st.sidebar.radio('功能图表:',['饼状图','折线图','柱状图'])
 
 subject = st.multiselect("科目:",['法理学','刑法','英语'], default = ['法理学','刑法','英语'])
 
@@ -76,7 +76,7 @@ MinGet = total_time % (60)
 
 HoursGet = total_time // 60
 
-colordict = {'法理学':'#EAB364','刑法':'#A4CABC','英语':'#ACBD78','总时长':'#B2473E'}
+colordict = {'法理学':'#FFDFE9','刑法':'#FFAAAB','英语':'#E793B4','总时长':'#FA6594'}
 st.write(f"总学习时间:{HoursGet}小时{MinGet}分钟")
 #print(total_time)
 colorchoice = []
@@ -120,19 +120,21 @@ if pixture == '柱状图':
     data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
     data['日期'] = pd.to_datetime(data['日期'])
     select = data.loc[range(start_time,end_time+1)]
-    fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale='Viridis')
+    select[['法理学','刑法','英语']] = select[['法理学','刑法','英语']]/60
+    color_scale = [[0, 'rgb(255, 192, 203)'],[1, 'rgb(0, 128, 0)']] 
+    fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale=color_scale)
     st.plotly_chart(fig3)
-else:
-    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
-    #data['日期'] = pd.to_datetime(data['日期'])
-    selection = data.reindex(columns=['日期','法理学','刑法','英语','总时长','备注'])
-    select = selection.loc[range(start_time,end_time+1)]
-    options_builder = GridOptionsBuilder.from_dataframe(select)
-    options_builder.configure_default_column(groupable=True,value=True,enableRowGroup=True,aggFunc='sum',editable=True,wrapText = True,autoHeight=True)
-    # options_builder.configure_column('col1',pinned = 'left')
-    # options_builder.configure_column('col2',pinned = 'left')
-    grid_options = options_builder.build()
-    grid_return = AgGrid(select,grid_options,theme='streamlit')
+#else:
+#    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
+#    #data['日期'] = pd.to_datetime(data['日期'])
+#    selection = data.reindex(columns=['日期','法理学','刑法','英语','总时长','备注'])
+#    select = selection.loc[range(start_time,end_time+1)]
+#    options_builder = GridOptionsBuilder.from_dataframe(select)
+#    options_builder.configure_default_column(groupable=True,value=True,enableRowGroup=True,aggFunc='sum',editable=True,wrapText = True,autoHeight=True)
+#    # options_builder.configure_column('col1',pinned = 'left')
+#    # options_builder.configure_column('col2',pinned = 'left')
+#    grid_options = options_builder.build()
+#    grid_return = AgGrid(select,grid_options,theme='streamlit')
     #grid_return
 #fig.show()
 #do_something()
