@@ -136,7 +136,7 @@ if pixture == '柱状图':
 
     # 创建柱状图
     fig3 = go.Figure()
-    fig.add_trace(go.Bar(x=select['日期'], y=select['总时长'], marker=dict(color=colors)))
+    fig3.add_trace(go.Bar(x=select['日期'], y=select['总时长'], marker=dict(color=colors)))
     st.plotly_chart(fig3)
 #else:
 #    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
