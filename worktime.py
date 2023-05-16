@@ -121,8 +121,22 @@ if pixture == '柱状图':
     data['日期'] = pd.to_datetime(data['日期'])
     select = data.loc[range(start_time,end_time+1)]
     select.loc[:,['总时长']] = select.loc[:,['总时长']]/60
-    color_scale = [[0, 'rgb(255, 182, 193)'],[0.6, 'rgb(0, 192, 203)'],[0.8, 'rgb(50, 205, 50)'],[1, 'rgb(0, 100, 0)']] 
-    fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale=color_scale)
+    #color_scale = [[0, 'rgb(255, 182, 193)'],[0.6, 'rgb(0, 192, 203)'],[0.8, 'rgb(50, 205, 50)'],[1, 'rgb(0, 100, 0)']] 
+    #fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale=color_scale)
+    colors = []
+    for value in y:
+        if value < 6:
+            colors.append('rgb(255, 182, 193)')
+        elif value >= 6 and value < 8:
+            colors.append('rgb(0, 192, 203)')
+        elif value >= 8 and value < 10:
+            colors.append('rgb(50, 205, 50)')
+        else:
+            colors.append('rgb(0, 100, 0)')  # 超过10的值都设置为超级深绿色
+
+    # 创建柱状图
+    fig3 = go.Figure()
+    fig.add_trace(go.Bar(x=select['日期'], y=select['总时长'], marker=dict(color=colors)))
     st.plotly_chart(fig3)
 #else:
 #    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
