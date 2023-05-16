@@ -124,7 +124,7 @@ if pixture == '柱状图':
     #color_scale = [[0, 'rgb(255, 182, 193)'],[0.6, 'rgb(0, 192, 203)'],[0.8, 'rgb(50, 205, 50)'],[1, 'rgb(0, 100, 0)']] 
     #fig3 = px.bar(select, x='日期',y='总时长',color='总时长',color_continuous_scale=color_scale)
     colors = []
-    for value in y:
+    for value in select['总时长']:
         if value < 6:
             colors.append('rgb(255, 182, 193)')
         elif value >= 6 and value < 8:
