@@ -65,7 +65,7 @@ else:
     st.error("Error: 结束日期应该在开始日期之后")
 pixture = st.sidebar.radio('功能图表:',['饼状图','折线图','柱状图'])
 
-subject = st.multiselect("科目:",['法理学','刑法','英语'], default = ['法理学','刑法','英语'])
+subject = st.multiselect("科目:",['法理学','刑法','英语','民法','宪法'], default = ['法理学','刑法','英语','民法','宪法'])
 
 start_time = (pd.to_datetime(start_date)-pd.to_datetime(day[0])).days
 end_time = (pd.to_datetime(end_date)-pd.to_datetime(day[0])).days
@@ -76,14 +76,14 @@ MinGet = total_time % (60)
 
 HoursGet = total_time // 60
 
-colordict = {'法理学':'#FFDFE9','刑法':'#FFAAAB','英语':'#E793B4','总时长':'#FA6594'}
+colordict = {'法理学':'#FFDFE9','刑法':'#FFAAAB','英语':'#E793B4','民法':'EBD6D9','宪法':'E2E1E1','总时长':'#FA6594'}
 st.write(f"总学习时间:{HoursGet}小时{MinGet}分钟")
 #print(total_time)
 colorchoice = []
 for sub in subject:
     colorchoice.append(colordict[sub])
 if pixture=='折线图':
-    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
+    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语','民法','宪法']],axis=1)
     #print(data.loc[range(start_time,end_time+1),['日期']])
     data['日期'] = pd.to_datetime(data['日期'])
     #print(data.loc[range(start_time,end_time+1),['日期']])
@@ -97,13 +97,17 @@ if pixture=='折线图':
                     )
 
     fig = go.Figure(layout=layout)
-    if subject == ['法理学','刑法','英语']:
+    if subject == ['法理学','刑法','英语','民法','宪法']:
         fig.add_trace(go.Scatter(x=select['日期'], y=select['法理学']/60, name="法理学",
                                 line_color=colordict['法理学']))
         fig.add_trace(go.Scatter(x=select['日期'], y=select['刑法']/60, name="刑法",
                                 line_color=colordict['刑法']))
         fig.add_trace(go.Scatter(x=select['日期'], y=select['英语']/60, name="英语",
                                 line_color=colordict['英语']))
+        fig.add_trace(go.Scatter(x=select['日期'], y=select['民法']/60, name="民法",
+                                line_color=colordict['民法']))
+        fig.add_trace(go.Scatter(x=select['日期'], y=select['宪法']/60, name="宪法",
+                                line_color=colordict['宪法']))
         fig.add_trace(go.Scatter(x=select['日期'], y=select['总时长']/60, name="总时长",
                                 line_color=colordict['总时长']))
     else:
@@ -117,7 +121,7 @@ if pixture == '饼状图':
     fig2 = px.pie(select2,names='科目',values='时长',color='科目',color_discrete_map=colordict,title='各科目学习占比')
     st.plotly_chart(fig2)
 if pixture == '柱状图':
-    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语']],axis=1)
+    data['总时长'] = np.sum(data.loc[:,['法理学','刑法','英语','民法','宪法']],axis=1)
     data['日期'] = pd.to_datetime(data['日期'])
     select = data.loc[range(start_time,end_time+1)]
     select.loc[:,['总时长']] = np.around(select.loc[:,['总时长']]/60,2)
