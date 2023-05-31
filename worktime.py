@@ -76,7 +76,7 @@ MinGet = total_time % (60)
 
 HoursGet = total_time // 60
 
-colordict = {'法理学':'#464F70','刑法':'#5779A7','英语':'#F3B27A','民法':'#F1CDAB','宪法':'#F2522E','总时长':'#131415'}
+colordict = {'法理学':'#D0DCF2','刑法':'#2A5774','英语':'#AECEB9','民法':'#D96F33','宪法':'#D98C70','总时长':'#131415'}
 st.write(f"总学习时间:{HoursGet}小时{MinGet}分钟")
 #print(total_time)
 colorchoice = []
